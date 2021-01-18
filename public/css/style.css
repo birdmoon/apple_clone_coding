@@ -84,6 +84,8 @@ a {
 }
 
 .description {
+  max-width: 1000px;
+  margin: 0 auto;
   font-size: 1.2rem;
   color: #888;
   padding: 0 1rem;
@@ -96,6 +98,102 @@ a {
   color: rgb(29, 29, 31);
 }
 
+.main-message small {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+}
+
+#scroll-section-2 .main-message {
+  font-size: 3.5rem;
+}
+
+.desc-message {
+  font-weight: bold;
+  width: 50%;
+}
+
+.pin {
+  width: 1px;
+  height: 100px;
+  background-color: black;
+}
+
+.mid-message {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: 2rem;
+  padding: 0 1rem;
+  color: #888;
+}
+
+.mid-message strong {
+  color: black;
+}
+
+.canvas-caption {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  color: #888;
+  font-size: 1.2rem;
+}
+
 .footer {
-  background-color: yellow;
+  background-color: darkorange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  margin-top: 4rem;
+}
+
+.sticky-elem {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* javascript로 body에 #show-scene-0~3까지 붙여준다. */
+
+#show-scene-0 #scroll-section-0 .sticky-elem,
+#show-scene-1 #scroll-section-1 .sticky-elem,
+#show-scene-2 #scroll-section-2 .sticky-elem,
+#show-scene-3 #scroll-section-3 .sticky-elem {
+  display: block;
+}
+
+/* 창 크기가 1024px 이상일 때 실행 */
+@media (min-width: 1024px) {
+  #scroll-section-0 h1 {
+    font-size: 9vw;
+  }
+  .main-message {
+    font-size: 4vw;
+  }
+  .description {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 2rem;
+  }
+  .description strong {
+    font-size: 6rem;
+  }
+  #scroll-section-2 .main-message {
+    font-size: 6vw;
+  }
+  .main-message small {
+    font-size: 2vw;
+  }
+  .desc-message {
+    width: 20%;
+  }
+  .mid-message {
+    font-size: 4vw;
+  }
+  .canvas-caption {
+    font-size: 2rem;
+  }
 }
