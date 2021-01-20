@@ -6,7 +6,6 @@ html {
 }
 
 body {
-  box-sizing: border-box;
   overflow-x: hidden;
   color: rgb(29, 29, 31);
   letter-spacing: -0.05em;
@@ -24,6 +23,11 @@ a {
 
 .global-nav {
   height: 44px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .global-nav-links,
@@ -44,6 +48,10 @@ a {
 .local-nav {
   height: 52px;
   border-bottom: 1px solid #ddd;
+  position: absolute;
+  top: 45px;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 .local-nav-links a:not(:first-child) {
@@ -58,11 +66,15 @@ a {
 }
 
 .scroll-section {
+  border: 3px solid tomato;
   padding-top: 50vh;
+  position: relative;
 }
 
 #scroll-section-0 h1 {
+  position: relative;
   font-size: 3rem;
+  top: -10vh;
   text-align: center;
 }
 
@@ -72,8 +84,6 @@ a {
   justify-content: center;
   height: 3em;
   margin: 5px 0;
-  /* 폰트사이즈의 3배정도
- */
   font-size: 2rem;
 }
 
@@ -145,7 +155,6 @@ a {
   justify-content: center;
   align-items: center;
   height: 7rem;
-  margin-top: 4rem;
 }
 
 .sticky-elem {
