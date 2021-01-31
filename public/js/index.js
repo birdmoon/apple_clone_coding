@@ -11,6 +11,13 @@
       scrollHeight: 0,
       objs: {
         container: document.querySelector("#scroll-section-0"),
+        messageA: document.querySelector("#scroll-section-0 .main-message.a"),
+        messageB: document.querySelector("#scroll-section-0 .main-message.b"),
+        messageC: document.querySelector("#scroll-section-0 .main-message.c"),
+        messageD: document.querySelector("#scroll-section-0 .main-message.d"),
+      },
+      values: {
+        messageA_opacity: [0, 1],
       },
     },
     {
@@ -50,6 +57,38 @@
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
     }
+
+    yOffset = window.pageYOffset;
+    let totalScrollHeight = 0;
+    for (let i = 0; i < sceneInfo.length; i++) {
+      totalScrollHeight += sceneInfo[i].scrollHeight;
+      if (totalScrollHeight >= yOffset) {
+        currentScene = i;
+        break;
+      }
+    }
+    document.body.setAttribute("id", `show-scene-${currentScene}`);
+    //현재 위치에서 새로고침할 때 위치를 잡아줌.
+  }
+
+  function playAnimation() {
+    switch (currentScene) {
+      case 0:
+        console.log("0 play");
+        break;
+
+      case 1:
+        console.log("1 play");
+        break;
+
+      case 2:
+        console.log("2 play");
+        break;
+
+      case 3:
+        console.log("3 play");
+        break;
+    }
   }
 
   function scrollLoop() {
@@ -65,21 +104,25 @@
 
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
       currentScene++;
+      document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
 
     if (yOffset < prevScrollHeight) {
-      if (currentScene === 0) return; //초기 상태에서 스크롤을 위로 올릴경우 currentScene이 마이너스가 될 수 있으므로 안전장치 걸어두는 게 좋다.
+      if (currentScene === 0) return; //초기 상태에서 스크롤을 위로 올릴경우 currentScene이 마이너스가 될 수 있으므로 안전장치 걸어두는 게 좋다.(모바일)
       currentScene--;
+      document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
 
-    console.log(currentScene);
+    playAnimation();
   }
 
-  window.addEventListener("resize", setLayout);
   window.addEventListener("scroll", () => {
     yOffset = window.pageYOffset; //scroll할때마다 yOffset값이 매겨진다.
     scrollLoop();
   });
+  // window.addEventListener("DOMContentLoaded", setLayout); //load보다 속도가 빠름, load는 이미지, 영상 파일 다 불러와야 실행되는 반면에 이것은 html 객체들만 다 불러와도 실행이 됨
+  window.addEventListener("load", setLayout); //파일이 다 로드되면 레이아웃을 실행해라.
+  window.addEventListener("resize", setLayout);
 
   setLayout();
 })();

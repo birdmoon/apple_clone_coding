@@ -115,3 +115,7 @@ package-lock.json
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# OSX file
+.DS_Store
