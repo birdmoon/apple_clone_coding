@@ -2,6 +2,7 @@
   let yOffset = 0; // window.pageYOffset 대신 쓸 변수
   let prevScrollHeight = 0; // 현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이 값의 합.
   let currentScene = 0; // 현재 활성화 된 (모니터에 보이는) Scene(scroll-section)
+  let enterNewScene = false; //새로운 scene이 시작된 순간
 
   const sceneInfo = [
     {
@@ -17,7 +18,9 @@
         messageD: document.querySelector("#scroll-section-0 .main-message.d"),
       },
       values: {
-        messageA_opacity: [0, 1],
+        messageA_opacity: [0, 1, { start: 0.1, end: 0.2 }],
+        //3번째 start , end 객체를 추가하여 애니메이션 구간을 설정한다.
+        messageB_opacity: [0, 1, { start: 0.3, end: 0.4 }],
       },
     },
     {
@@ -71,22 +74,68 @@
     //현재 위치에서 새로고침할 때 위치를 잡아줌.
   }
 
+  function calcValues(values, currentYOffset) {
+    //여기서 values는 opacity값의 시작값과 끝값
+    // currentYOffset은 현재 섹션의 스크롤 높이 값
+    let rv;
+    // 현재 스크롤 섹션에서 스크롤 된 범위를 비율로 구하기
+    const scrollHeight = sceneInfo[currentScene].scrollHeight;
+    const scrollRatio = currentYOffset / scrollHeight;
+
+    if (values.length === 3) {
+      // start~end 사이에 애니메이션 실행
+      const partScrollStart = values[2].start * scrollHeight;
+      const partScrollEnd = values[2].end * scrollHeight;
+      const partScrollHeight = partScrollEnd - partScrollStart;
+
+      if (
+        currentYOffset >= partScrollStart &&
+        currentYOffset <= partScrollEnd
+      ) {
+        rv =
+          ((currentYOffset - partScrollStart) / partScrollHeight) *
+            (values[1] - values[0]) +
+          values[0];
+      } else if (currentYOffset < partScrollStart) {
+        rv = values[0];
+      } else if (currentYOffset > partScrollEnd) {
+        rv = values[1];
+      }
+    } else {
+      rv = scrollRatio * (values[1] - values[0]) + values[0];
+    }
+
+    // rv return value 약자로 변수 설정함.
+    return rv;
+  }
+
   function playAnimation() {
+    const objs = sceneInfo[currentScene].objs;
+    const values = sceneInfo[currentScene].values;
+    const currentYOffset = yOffset - prevScrollHeight;
+    // objs 와 values의 값은 sceneInfo에서 변수로 받아 놓은 값들이다.
+    //objs는 DOM 객체 요소들
+
     switch (currentScene) {
       case 0:
-        console.log("0 play");
+        // console.log("0 play");
+        let messageA_opacity_in = calcValues(
+          values.messageA_opacity,
+          currentYOffset
+        );
+        objs.messageA.style.opacity = messageA_opacity_in;
         break;
 
       case 1:
-        console.log("1 play");
+        // console.log("1 play");
         break;
 
       case 2:
-        console.log("2 play");
+        // console.log("2 play");
         break;
 
       case 3:
-        console.log("3 play");
+        // console.log("3 play");
         break;
     }
   }
@@ -103,15 +152,19 @@
     }
 
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+      enterNewScene = true;
       currentScene++;
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
 
     if (yOffset < prevScrollHeight) {
+      enterNewScene = true;
       if (currentScene === 0) return; //초기 상태에서 스크롤을 위로 올릴경우 currentScene이 마이너스가 될 수 있으므로 안전장치 걸어두는 게 좋다.(모바일)
       currentScene--;
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
+
+    if (enterNewScene) return;
 
     playAnimation();
   }

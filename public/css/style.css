@@ -85,6 +85,7 @@ a {
   height: 3em;
   margin: 5px 0;
   font-size: 2rem;
+  opacity: 0;
 }
 
 .main-message p {
