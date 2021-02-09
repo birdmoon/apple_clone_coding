@@ -78,9 +78,12 @@
     //여기서 values는 opacity값의 시작값과 끝값
     // currentYOffset은 현재 섹션의 스크롤 높이 값
     let rv;
-    // 현재 스크롤 섹션에서 스크롤 된 범위를 비율로 구하기
+    // rv는 현재 스크롤 섹션에서 스크롤 된 범위를 비율로 구하는 변수
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
+    //함수 자체가 스크롤 할 때마다 실행되기 때문에, scrollRatio 값이 바뀌는 게 아니라
+    //함수가 실행될 때마다 새로 만들어진 scrollRatio에 currentYOffset / sceneInfo[currentScene].scrollHeight;
+    // 값이 들어가므로 const로 설정해도 됨.
 
     if (values.length === 3) {
       // start~end 사이에 애니메이션 실행
